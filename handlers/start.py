@@ -1,5 +1,4 @@
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
-from telegram import Update
 from telegram.ext import ContextTypes
 from config import ADMIN_ID
 from utils import delete_message, delete_reply
