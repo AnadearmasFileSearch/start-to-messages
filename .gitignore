@@ -1,0 +1,15 @@
+# Python bytecode files
+__pycache__/
+*.pyc
+
+# Virtual environment
+.venv/
+
+# Environment variable file
+.env
+
+# MongoDB database files (if any)
+db.sqlite3
+
+# Logs
+*.log
