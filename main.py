@@ -51,6 +51,7 @@ def webhook(environ, start_response):
     try:
         # Read the request body and get the JSON data
         request_data = environ['wsgi.input'].read().decode('utf-8')  # Decode input data
+        request_data = json.loads(request_data)  # Parse it into a Python dictionary
         process_update(request_data)  # Process the update
 
         start_response('200 OK', [('Content-Type', 'text/plain')])
