@@ -33,15 +33,15 @@ application.add_handler(CommandHandler("users", users))
 application.add_handler(MessageHandler(filters.TEXT & filters.ChatType.PRIVATE, reply_to_user))
 
 # Function to set the webhook for Telegram updates
-def set_webhook():
+async def set_webhook():
     webhook_url = f"{WEBHOOK_URL}/{BOT_TOKEN}"
-    bot.set_webhook(url=webhook_url)
+    await bot.set_webhook(url=webhook_url)
     logger.info(f"Webhook set to {webhook_url}")
 
 # Function to process incoming webhook requests
-def process_update(request):
+def process_update(request_data):
     try:
-        update = Update.de_json(request.get_json(force=True), bot)
+        update = Update.de_json(request_data, bot)
         application.process_update(update)
     except Exception as e:
         logger.error(f"Error processing update: {e}")
@@ -49,8 +49,10 @@ def process_update(request):
 # Webhook endpoint function
 def webhook(environ, start_response):
     try:
-        request = environ.get('wsgi.input')
-        process_update(request)
+        # Read the request body and get the JSON data
+        request_data = environ['wsgi.input'].read().decode('utf-8')  # Decode input data
+        process_update(request_data)  # Process the update
+
         start_response('200 OK', [('Content-Type', 'text/plain')])
         return [b"OK"]
     except Exception as e:
@@ -59,8 +61,9 @@ def webhook(environ, start_response):
         return [b"Internal Server Error"]
 
 if __name__ == "__main__":
-    # Set the webhook
-    set_webhook()
+    # Set the webhook asynchronously
+    import asyncio
+    asyncio.run(set_webhook())
 
     # Start webhook handling (using Werkzeug server)
     from werkzeug.serving import run_simple
