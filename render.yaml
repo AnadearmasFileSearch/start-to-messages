@@ -1,13 +1,12 @@
 services:
   - type: web
-    name: telegram-bot-service
+    name: telegram-bot
     env: python
-    buildCommand: "pip install -r requirements.txt"
-    startCommand: "python main.py"
     plan: free
-    pythonVersion: "3.11"
+    buildCommand: pip install -r requirements.txt
+    startCommand: python main.py
     envVars:
       - key: BOT_TOKEN
-        value: ${BOT_TOKEN}
+        value: "7524278392:AAGd21uCuExw-JAuko9UC5l9GLrqmwy-mh4"
       - key: WEBHOOK_URL
-        value: ${WEBHOOK_URL}
+        value: "https://start-to-messages.onrender.com"
