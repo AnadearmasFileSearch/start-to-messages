@@ -1,15 +1,11 @@
 import os
 import logging
-<<<<<<< HEAD
-import handlers
+import json  # Ensure you import the json module
+import handlers  # Ensure you import the handlers module
 
-=======
-import json
->>>>>>> 4cb45f1d2d06b38c4073b3ab4dae97ef69f03536
 from telegram import Bot, Update
 from telegram.ext import Application, CommandHandler, MessageHandler, filters
 from config import BOT_TOKEN, WEBHOOK_URL
-import handlers  # Import the handlers module
 
 # Import the functions from handlers
 from handlers import start, forward_message_to_admin, reply_to_user, broadcast, users
@@ -19,7 +15,7 @@ logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     level=logging.DEBUG
 )
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(_name_)
 
 # Initialize the bot
 bot = Bot(token=BOT_TOKEN)
@@ -81,7 +77,7 @@ def webhook(environ, start_response):
         start_response('500 Internal Server Error', [('Content-Type', 'text/plain')])
         return [b"Internal Server Error"]
 
-if __name__ == "__main__":
+if _name_ == "_main_":
     # Set the webhook asynchronously
     import asyncio
     asyncio.run(set_webhook())
