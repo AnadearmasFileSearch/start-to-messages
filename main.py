@@ -15,7 +15,7 @@ logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     level=logging.DEBUG
 )
-logger = logging.getLogger(_name_)
+logger = logging.getLogger(__name__)
 
 # Initialize the bot
 bot = Bot(token=BOT_TOKEN)
@@ -77,7 +77,7 @@ def webhook(environ, start_response):
         start_response('500 Internal Server Error', [('Content-Type', 'text/plain')])
         return [b"Internal Server Error"]
 
-if _name_ == "_main_":
+if __name__ == "_main_":
     # Set the webhook asynchronously
     import asyncio
     asyncio.run(set_webhook())
