@@ -47,13 +47,28 @@ def process_update(request_data):
     except Exception as e:
         logger.error(f"Error processing update: {e}")
 
-# Webhook endpoint function
+# Webhook endpoint function with enhanced error handling
 def webhook(environ, start_response):
     try:
         # Read the request body and get the JSON data
         request_data = environ['wsgi.input'].read().decode('utf-8')  # Decode input data
-        request_data = json.loads(request_data)  # Parse it into a Python dictionary
-        process_update(request_data)  # Process the update
+        
+        # Check if request_data is empty and log it
+        if not request_data:
+            logger.error("Received empty request body.")
+            start_response('400 Bad Request', [('Content-Type', 'text/plain')])
+            return [b"Empty body"]
+
+        # Try to parse the data into a Python dictionary
+        try:
+            request_data = json.loads(request_data)  # Parse it into a Python dictionary
+        except json.JSONDecodeError as e:
+            logger.error(f"JSON Decode Error: {str(e)}. Invalid JSON received.")
+            start_response('400 Bad Request', [('Content-Type', 'text/plain')])
+            return [b"Invalid JSON"]
+
+        # Process the update
+        process_update(request_data)
 
         start_response('200 OK', [('Content-Type', 'text/plain')])
         return [b"OK"]
