@@ -1,10 +1,14 @@
+import sys  # Added for debugging Python executable path
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 from telegram.ext import ContextTypes
 from config import ADMIN_ID
 from utils import delete_message, delete_reply
 from datetime import timedelta
 
-# Mock database for users
+# Debugging: Print the Python executable path
+print("Python executable path:", sys.executable)
+
+# Database setup
 from pymongo import MongoClient
 from config import MONGO_URL
 
