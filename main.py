@@ -77,7 +77,7 @@ def webhook(environ, start_response):
         start_response('500 Internal Server Error', [('Content-Type', 'text/plain')])
         return [b"Internal Server Error"]
 
-if _name_ == "_main_":
+if __name__ == "_main_":
     # Set the webhook asynchronously
     import asyncio
     asyncio.run(set_webhook())
