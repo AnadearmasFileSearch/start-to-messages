@@ -47,9 +47,16 @@ def process_update(request):
         logger.error(f"Error processing update: {e}")
 
 # Webhook endpoint function
-def webhook(request):
-    process_update(request)
-    return "OK"
+def webhook(environ, start_response):
+    try:
+        request = environ.get('wsgi.input')
+        process_update(request)
+        start_response('200 OK', [('Content-Type', 'text/plain')])
+        return [b"OK"]
+    except Exception as e:
+        logger.error(f"Error in webhook: {e}")
+        start_response('500 Internal Server Error', [('Content-Type', 'text/plain')])
+        return [b"Internal Server Error"]
 
 if __name__ == "__main__":
     # Set the webhook
