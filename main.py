@@ -15,7 +15,7 @@ logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     level=logging.DEBUG
 )
-logger = logging.getLogger(_name_)
+logger = logging.getLogger(__name__)
 
 # Initialize the bot
 bot = Bot(token=BOT_TOKEN)
