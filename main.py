@@ -3,6 +3,13 @@ import logging
 from telegram import Bot, Update
 from telegram.ext import Application, CommandHandler, MessageHandler, filters
 from config import BOT_TOKEN, WEBHOOK_URL
+import handlers  # Import the handlers module
+
+# Debugging: Check if handlers are imported correctly
+print("Handlers module:", handlers)
+print("Functions available in handlers:", dir(handlers))
+
+# Import the functions from handlers
 from handlers import start, forward_message_to_admin, reply_to_user, broadcast, users  # Import your handlers
 
 # Set up logging to get detailed information
