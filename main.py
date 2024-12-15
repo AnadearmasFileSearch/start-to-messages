@@ -42,6 +42,7 @@ async def set_webhook():
 # Function to process incoming webhook requests
 def process_update(request_data):
     try:
+        # Parse the incoming update and process it using the application
         update = Update.de_json(request_data, bot)
         application.process_update(update)
     except Exception as e:
@@ -70,9 +71,11 @@ def webhook(environ, start_response):
         # Process the update
         process_update(request_data)
 
+        # Send success response
         start_response('200 OK', [('Content-Type', 'text/plain')])
         return [b"OK"]
     except Exception as e:
+        # Log error if the webhook fails
         logger.error(f"Error in webhook: {e}")
         start_response('500 Internal Server Error', [('Content-Type', 'text/plain')])
         return [b"Internal Server Error"]
@@ -82,6 +85,6 @@ if __name__ == "__main__":
     import asyncio
     asyncio.run(set_webhook())
 
-    # Start webhook handling (using Werkzeug server)
+    # Start webhook handling (using Werkzeug server for development)
     from werkzeug.serving import run_simple
     run_simple("0.0.0.0", 5000, webhook)
